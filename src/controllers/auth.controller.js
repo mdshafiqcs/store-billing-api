@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 import { asyncHandler, ApiError, ApiResponse } from "../utils/index.js";
+import bcrypt from "bcrypt";
 
 const cookieOptions = {httpOnly: true, secure: true}
 
@@ -16,7 +17,9 @@ const login = asyncHandler( async(req,res) => {
     throw new ApiError(400, "Invalid Credentials");
   }
 
-  if(!user.isPasswordCorrect(password)){
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+  if(!isPasswordCorrect){
     throw new ApiError(400, "Invalid Credentials");
   }
 
