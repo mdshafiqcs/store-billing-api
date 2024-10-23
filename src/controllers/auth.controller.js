@@ -33,7 +33,7 @@ const login = asyncHandler( async(req,res) => {
     new ApiResponse(200, {
       user,
       accessToken,
-    })
+    }, "Login successful")
   )
 })
 
